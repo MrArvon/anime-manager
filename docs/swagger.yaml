@@ -1,0 +1,124 @@
+definitions:
+  models.Anime:
+    properties:
+      condition:
+        type: string
+      description:
+        type: string
+      duration:
+        type: integer
+      episode:
+        type: integer
+      family_id:
+        type: string
+      link:
+        type: string
+      position:
+        type: string
+      rate:
+        type: integer
+      season:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    type: object
+  models.Family:
+    properties:
+      altName:
+        type: string
+      avgRate:
+        type: integer
+      name:
+        type: string
+      totalDuration:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/anime:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: Call All Data Anime
+      tags:
+      - Data Anime
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Anime'
+      produces:
+      - application/json
+      responses: {}
+      summary: Add New Anime
+      tags:
+      - Data Anime
+  /api/family:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: Call All Data Family
+      tags:
+      - Data Family
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Family'
+      produces:
+      - application/json
+      responses: {}
+      summary: Add New Family
+      tags:
+      - Data Family
+  /api/family/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: delete family
+        in: path
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Family
+      tags:
+      - Data Family
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: search family by id
+        in: path
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Call Single Data Family
+      tags:
+      - Data Family
+swagger: "2.0"
