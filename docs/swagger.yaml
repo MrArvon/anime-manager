@@ -28,13 +28,13 @@ definitions:
     type: object
   models.Family:
     properties:
-      altName:
+      alt_name:
         type: string
-      avgRate:
+      avg_rate:
         type: integer
       name:
         type: string
-      totalDuration:
+      total_duration:
         type: integer
     type: object
 info:

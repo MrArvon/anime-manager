@@ -184,16 +184,16 @@ const docTemplate = `{
         "models.Family": {
             "type": "object",
             "properties": {
-                "altName": {
+                "alt_name": {
                     "type": "string"
                 },
-                "avgRate": {
+                "avg_rate": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
-                "totalDuration": {
+                "total_duration": {
                     "type": "integer"
                 }
             }

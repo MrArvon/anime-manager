@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"anime-manager/models"
+	"encoding/json"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +27,9 @@ func (ar *animeRepository) CreateAnime(anime models.Anime) (models.Anime, error)
 
 func (ar *animeRepository) GetAllAnime() ([]models.Anime, error) {
 	var animes []models.Anime
-	err := ar.db.Find(&animes).Error
+	err := ar.db.Debug().Find(&animes).Error
+	//_, b := ar.db.Find(&animes).Rows()
+	b, _ := json.Marshal(animes[0])
+	fmt.Println(string(b))
 	return animes, err
 }

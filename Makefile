@@ -1,5 +1,6 @@
 run:
+	swag init
 	go run main.go
 
-swag:
-	swag init
+#swag:
+#

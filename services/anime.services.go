@@ -24,6 +24,7 @@ func (as *animeService) CreateAnime(anime models.Anime) (models.Anime, error) {
 		ID:          uuid.New(),
 		Title:       anime.Title,
 		FamilyID:    anime.FamilyID,
+		Family:      anime.Family,
 		Type:        anime.Type,
 		Description: anime.Description,
 		Episode:     anime.Episode,

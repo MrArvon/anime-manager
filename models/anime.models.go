@@ -3,30 +3,51 @@ package models
 import "github.com/google/uuid"
 
 type Anime struct {
-	ID          uuid.UUID `gorm:"primaryKey" swaggerignore:"true"`
-	Title       string    `gorm:"not null"`
-	FamilyID    uuid.UUID `gorm:"not null" json:"family_id"`
-	Family      Family    `gorm:"foreignKey:FamilyID" swaggerignore:"true"`
-	Type        string
-	Description string
-	Episode     int
-	Duration    int16
-	Season      string
-	Year        int16
-	Link        string  `gorm:"not null"`
-	Condition   *string `gorm:"default:'recorded'"`
-	Position    string
-	Rate        *int8 `gorm:"default:NULL"`
-	CreatedAt   int64 `gorm:"autoCreateTime" swaggerignore:"true"`
-	UpdatedAt   int64 `gorm:"autoUpdateTime" swaggerignore:"true"`
+	ID          uuid.UUID `json:"id" gorm:"primaryKey" swaggerignore:"true"`
+	Title       string    `json:"title" gorm:"not null"`
+	FamilyID    uuid.UUID `json:"family_id" gorm:"not null"`
+	Family      Family    `json:"family" gorm:"references:ID; constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" swaggerignore:"true"`
+	Type        string    `json:"type"`
+	Description string    `json:"description"`
+	Episode     int       `json:"episode"`
+	Duration    int16     `json:"duration"`
+	Season      string    `json:"season"`
+	Year        int16     `json:"year"`
+	Link        string    `json:"link" gorm:"not null"`
+	Condition   string    `json:"condition" gorm:"default:'saved'"`
+	Position    string    `json:"position"`
+	Rate        *int8     `json:"rate" gorm:"default:NULL"`
+	CreatedAt   int64     `json:"created_at" gorm:"autoCreateTime" swaggerignore:"true"`
+	UpdatedAt   int64     `json:"updated_at" gorm:"autoUpdateTime" swaggerignore:"true"`
 }
 
-type Family struct {
-	ID            uuid.UUID `gorm:"primaryKey" swaggerignore:"true"`
-	Name          string    `gorm:"not null"`
-	AltName       string
-	AvgRate       *int8
-	TotalDuration *int
-	CreatedAt     int64 `gorm:"autoCreateTime" swaggerignore:"true"`
-	UpdatedAt     int64 `gorm:"autoUpdateTime" swaggerignore:"true"`
+type AnimeRequest struct {
+	Title       string    `json:"title"`
+	FamilyID    uuid.UUID `json:"family_id"`
+	Type        string    `json:"type"`
+	Description string    `json:"description"`
+	Episode     int       `json:"episode"`
+	Duration    int16     `json:"duration"`
+	Season      string    `json:"season"`
+	Year        int16     `json:"year"`
+	Link        string    `json:"link"`
+	Condition   string    `json:"condition"`
+	Position    string    `json:"position"`
+	Rate        *int8     `json:"rate"`
+}
+
+type AnimeResponse struct {
+	ID          uuid.UUID      `json:"id" swaggerignore:"true"`
+	Title       string         `json:"title"`
+	Family      FamilyResponse `json:"family"`
+	Type        string         `json:"type"`
+	Description string         `json:"description"`
+	Episode     int            `json:"episode"`
+	Duration    int16          `json:"duration"`
+	Season      string         `json:"season"`
+	Year        int16          `json:"year"`
+	Link        string         `json:"link"`
+	Condition   string         `json:"condition"`
+	Position    string         `json:"position"`
+	Rate        *int8          `json:"rate"`
 }
