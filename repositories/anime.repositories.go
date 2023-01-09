@@ -2,14 +2,15 @@ package repositories
 
 import (
 	"anime-manager/models"
-	"encoding/json"
-	"fmt"
 	"gorm.io/gorm"
 )
 
 type AnimeRepository interface {
 	CreateAnime(anime models.Anime) (models.Anime, error)
 	GetAllAnime() ([]models.Anime, error)
+	GetAnimeByID(string) (models.Anime, error)
+	UpdateAnime(string, models.Anime) (models.Anime, error)
+	DeleteAnime(string) error
 }
 
 type animeRepository struct {
@@ -27,9 +28,23 @@ func (ar *animeRepository) CreateAnime(anime models.Anime) (models.Anime, error)
 
 func (ar *animeRepository) GetAllAnime() ([]models.Anime, error) {
 	var animes []models.Anime
-	err := ar.db.Debug().Find(&animes).Error
-	//_, b := ar.db.Find(&animes).Rows()
-	b, _ := json.Marshal(animes[0])
-	fmt.Println(string(b))
+	err := ar.db.Find(&animes).Error
 	return animes, err
+}
+
+func (ar *animeRepository) GetAnimeByID(id string) (models.Anime, error) {
+	var anime models.Anime
+	err := ar.db.Where("id = ?", id).First(&anime).Error
+	return anime, err
+}
+
+func (ar *animeRepository) UpdateAnime(id string, anime models.Anime) (models.Anime, error) {
+	err := ar.db.Where("id = ?", id).Save(&anime).Error
+	return anime, err
+}
+
+func (ar *animeRepository) DeleteAnime(id string) error {
+	var anime models.Anime
+	err := ar.db.Where("id = ?", id).Delete(&anime).Error
+	return err
 }

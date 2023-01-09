@@ -32,7 +32,7 @@ func NewFamilyHandler(service services.FamilyService) *familyHandler {
 // @Produce json
 // @Param request body models.Family true "query params"
 // @Router /api/family [post]
-func (h *familyHandler) CreateFamily(c *gin.Context) {
+func (fh *familyHandler) CreateFamily(c *gin.Context) {
 	var family models.Family
 	err := c.ShouldBindJSON(&family)
 	if err != nil {
@@ -48,7 +48,7 @@ func (h *familyHandler) CreateFamily(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.CreateFamily(family)
+	res, err := fh.service.CreateFamily(family)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -68,8 +68,8 @@ func (h *familyHandler) CreateFamily(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Router /api/family [get]
-func (h *familyHandler) GetAllFamily(c *gin.Context) {
-	res, err := h.service.GetAllFamily()
+func (fh *familyHandler) GetAllFamily(c *gin.Context) {
+	res, err := fh.service.GetAllFamily()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -90,11 +90,11 @@ func (h *familyHandler) GetAllFamily(c *gin.Context) {
 // @Tags Data Family
 // @Accept json
 // @Produce json
-// @Param id path string false "search family by id"
+// @Param id path string true "search family by id"
 // @Router /api/family/{id} [get]
-func (h *familyHandler) GetFamilyByID(c *gin.Context) {
+func (fh *familyHandler) GetFamilyByID(c *gin.Context) {
 	id := c.Param("id")
-	res, err := h.service.GetFamilyByID(id)
+	res, err := fh.service.GetFamilyByID(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -114,10 +114,10 @@ func (h *familyHandler) GetFamilyByID(c *gin.Context) {
 // @Tags Data Family
 // @Accept json
 // @Produce json
-// @Param id path string false "update family by id"
-// @Param request body models.FamilyRequest true "query params"
+// @Param id path string true "update family by id"
+// @Param request body models.FamilyRequest false "query params"
 // @Router /api/family/{id} [put]
-func (h *familyHandler) UpdateFamily(c *gin.Context) {
+func (fh *familyHandler) UpdateFamily(c *gin.Context) {
 	id := c.Param("id")
 
 	var family models.FamilyRequest
@@ -135,7 +135,7 @@ func (h *familyHandler) UpdateFamily(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.UpdateFamily(id, family)
+	res, err := fh.service.UpdateFamily(id, family)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -154,11 +154,11 @@ func (h *familyHandler) UpdateFamily(c *gin.Context) {
 // @Tags Data Family
 // @Accept json
 // @Produce json
-// @Param id path string false "delete family"
+// @Param id path string true "delete family"
 // @Router /api/family/{id} [delete]
-func (h *familyHandler) DeleteFamily(c *gin.Context) {
+func (fh *familyHandler) DeleteFamily(c *gin.Context) {
 	id := c.Param("id")
-	err := h.service.DeleteFamily(id)
+	err := fh.service.DeleteFamily(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),

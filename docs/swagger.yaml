@@ -26,6 +26,33 @@ definitions:
       year:
         type: integer
     type: object
+  models.AnimeRequest:
+    properties:
+      condition:
+        type: string
+      description:
+        type: string
+      duration:
+        type: integer
+      episode:
+        type: integer
+      family_id:
+        type: string
+      link:
+        type: string
+      position:
+        type: string
+      rate:
+        type: integer
+      season:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    type: object
   models.Family:
     properties:
       alt_name:
@@ -77,6 +104,57 @@ paths:
       summary: Add New Anime
       tags:
       - Data Anime
+  /api/anime/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: delete anime
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Anime
+      tags:
+      - Data Anime
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: search anime by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Call Single Data Anime
+      tags:
+      - Data Anime
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: update anime by id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/models.AnimeRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Single Data Anime
+      tags:
+      - Data Anime
   /api/family:
     get:
       consumes:
@@ -111,6 +189,7 @@ paths:
       - description: delete family
         in: path
         name: id
+        required: true
         type: string
       produces:
       - application/json
@@ -125,6 +204,7 @@ paths:
       - description: search family by id
         in: path
         name: id
+        required: true
         type: string
       produces:
       - application/json
@@ -139,11 +219,11 @@ paths:
       - description: update family by id
         in: path
         name: id
+        required: true
         type: string
       - description: query params
         in: body
         name: request
-        required: true
         schema:
           $ref: '#/definitions/models.FamilyRequest'
       produces:

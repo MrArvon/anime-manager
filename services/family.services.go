@@ -3,7 +3,6 @@ package services
 import (
 	"anime-manager/models"
 	"anime-manager/repositories"
-	"fmt"
 	"github.com/google/uuid"
 )
 
@@ -47,15 +46,19 @@ func (fs *familyService) GetFamilyByID(id string) (models.Family, error) {
 }
 
 func (fs *familyService) UpdateFamily(id string, f models.FamilyRequest) (models.Family, error) {
-	Old, _ := fs.repository.GetFamilyByID(id)
 	var New models.Family
+	Old, err := fs.repository.GetFamilyByID(id)
+	if err != nil {
+		return New, err
+	}
+
 	New.ID, _ = uuid.Parse(id)
 	New.Name = Old.Name
 	New.AltName = Old.AltName
 	New.AvgRate = Old.AvgRate
 	New.TotalDuration = Old.TotalDuration
 	New.CreatedAt = Old.CreatedAt
-	fmt.Println(f)
+
 	if f.Name != "" {
 		New.Name = f.Name
 	}

@@ -55,6 +55,82 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/anime/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Anime"
+                ],
+                "summary": "Call Single Data Anime",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search anime by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Anime"
+                ],
+                "summary": "Update Single Data Anime",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "update anime by id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.AnimeRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Anime"
+                ],
+                "summary": "Delete Anime",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "delete anime",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/family": {
             "get": {
                 "consumes": [
@@ -111,7 +187,8 @@ const docTemplate = `{
                         "type": "string",
                         "description": "search family by id",
                         "name": "id",
-                        "in": "path"
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {}
@@ -132,13 +209,13 @@ const docTemplate = `{
                         "type": "string",
                         "description": "update family by id",
                         "name": "id",
-                        "in": "path"
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "description": "query params",
                         "name": "request",
                         "in": "body",
-                        "required": true,
                         "schema": {
                             "$ref": "#/definitions/models.FamilyRequest"
                         }
@@ -162,7 +239,8 @@ const docTemplate = `{
                         "type": "string",
                         "description": "delete family",
                         "name": "id",
-                        "in": "path"
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {}
@@ -171,6 +249,47 @@ const docTemplate = `{
     },
     "definitions": {
         "models.Anime": {
+            "type": "object",
+            "properties": {
+                "condition": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "episode": {
+                    "type": "integer"
+                },
+                "family_id": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "integer"
+                },
+                "season": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.AnimeRequest": {
             "type": "object",
             "properties": {
                 "condition": {
