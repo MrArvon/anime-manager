@@ -116,6 +116,36 @@ const docTemplate = `{
                 ],
                 "responses": {}
             },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Family"
+                ],
+                "summary": "Update Single Data Family",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "update family by id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FamilyRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
             "delete": {
                 "consumes": [
                     "application/json"
@@ -182,6 +212,23 @@ const docTemplate = `{
             }
         },
         "models.Family": {
+            "type": "object",
+            "properties": {
+                "alt_name": {
+                    "type": "string"
+                },
+                "avg_rate": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "total_duration": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.FamilyRequest": {
             "type": "object",
             "properties": {
                 "alt_name": {

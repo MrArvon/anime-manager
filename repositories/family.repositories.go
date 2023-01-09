@@ -8,10 +8,9 @@ import (
 type FamilyRepository interface {
 	CreateFamily(family models.Family) (models.Family, error)
 	GetAllFamily() ([]models.Family, error)
-	GetFamilyByID(id string) (models.Family, error)
-	//CheckFamilyID(id string) (models.Family, error)
-	//UpdateFamily(id string) (models.Family, error)
-	DeleteFamily(id string) error
+	GetFamilyByID(string) (models.Family, error)
+	UpdateFamily(string, models.Family) (models.Family, error)
+	DeleteFamily(string) error
 }
 
 type familyRepository struct {
@@ -39,14 +38,13 @@ func (fr *familyRepository) GetFamilyByID(id string) (models.Family, error) {
 	return family, err
 }
 
-//func (fr *familyRepository) CheckFamilyID(id string) (models.Family, error) {
-//	var family models.Family
-//	err := fr.db.Select("id").First(&family).Error
-//	return family, err
-//}
+func (fr *familyRepository) UpdateFamily(id string, family models.Family) (models.Family, error) {
+	err := fr.db.Where("id = ?", id).Save(&family).Error
+	return family, err
+}
 
 func (fr *familyRepository) DeleteFamily(id string) error {
-	var families models.Family
-	err := fr.db.Where("id = ?", id).Delete(&families).Error
+	var family models.Family
+	err := fr.db.Where("id = ?", id).Delete(&family).Error
 	return err
 }

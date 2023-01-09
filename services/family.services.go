@@ -3,15 +3,16 @@ package services
 import (
 	"anime-manager/models"
 	"anime-manager/repositories"
+	"fmt"
 	"github.com/google/uuid"
 )
 
 type FamilyService interface {
 	CreateFamily(family models.Family) (models.Family, error)
 	GetAllFamily() ([]models.Family, error)
-	GetFamilyByID(id string) (models.Family, error)
-	//UpdateFamily(id string) (models.Family, error)
-	DeleteFamily(id string) error
+	GetFamilyByID(string) (models.Family, error)
+	UpdateFamily(string, models.FamilyRequest) (models.Family, error)
+	DeleteFamily(string) error
 }
 
 type familyService struct {
@@ -41,8 +42,34 @@ func (fs *familyService) GetAllFamily() ([]models.Family, error) {
 }
 
 func (fs *familyService) GetFamilyByID(id string) (models.Family, error) {
-	families, err := fs.repository.GetFamilyByID(id)
-	return families, err
+	family, err := fs.repository.GetFamilyByID(id)
+	return family, err
+}
+
+func (fs *familyService) UpdateFamily(id string, f models.FamilyRequest) (models.Family, error) {
+	Old, _ := fs.repository.GetFamilyByID(id)
+	var New models.Family
+	New.ID, _ = uuid.Parse(id)
+	New.Name = Old.Name
+	New.AltName = Old.AltName
+	New.AvgRate = Old.AvgRate
+	New.TotalDuration = Old.TotalDuration
+	New.CreatedAt = Old.CreatedAt
+	fmt.Println(f)
+	if f.Name != "" {
+		New.Name = f.Name
+	}
+	if f.AltName != "" {
+		New.AltName = f.AltName
+	}
+	if f.AvgRate != nil {
+		New.AvgRate = f.AvgRate
+	}
+	if f.TotalDuration != nil {
+		New.TotalDuration = f.TotalDuration
+	}
+	family, err := fs.repository.UpdateFamily(id, New)
+	return family, err
 }
 
 func (fs *familyService) DeleteFamily(id string) error {

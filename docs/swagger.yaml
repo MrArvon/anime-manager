@@ -37,6 +37,17 @@ definitions:
       total_duration:
         type: integer
     type: object
+  models.FamilyRequest:
+    properties:
+      alt_name:
+        type: string
+      avg_rate:
+        type: integer
+      name:
+        type: string
+      total_duration:
+        type: integer
+    type: object
 info:
   contact: {}
 paths:
@@ -119,6 +130,26 @@ paths:
       - application/json
       responses: {}
       summary: Call Single Data Family
+      tags:
+      - Data Family
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: update family by id
+        in: path
+        name: id
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.FamilyRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Single Data Family
       tags:
       - Data Family
 swagger: "2.0"

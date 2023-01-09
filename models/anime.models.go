@@ -37,17 +37,17 @@ type AnimeRequest struct {
 }
 
 type AnimeResponse struct {
-	ID          uuid.UUID      `json:"id" swaggerignore:"true"`
-	Title       string         `json:"title"`
-	Family      FamilyResponse `json:"family"`
-	Type        string         `json:"type"`
-	Description string         `json:"description"`
-	Episode     int            `json:"episode"`
-	Duration    int16          `json:"duration"`
-	Season      string         `json:"season"`
-	Year        int16          `json:"year"`
-	Link        string         `json:"link"`
-	Condition   string         `json:"condition"`
-	Position    string         `json:"position"`
-	Rate        *int8          `json:"rate"`
+	ID          uuid.UUID     `json:"id" swaggerignore:"true"`
+	Title       string        `json:"title"`
+	Family      FamilyRequest `json:"family"`
+	Type        string        `json:"type"`
+	Description string        `json:"description"`
+	Episode     int           `json:"episode"`
+	Duration    int16         `json:"duration"`
+	Season      string        `json:"season"`
+	Year        int16         `json:"year"`
+	Link        string        `json:"link"`
+	Condition   string        `json:"condition"`
+	Position    string        `json:"position"`
+	Rate        *int8         `json:"rate"`
 }

@@ -13,5 +13,6 @@ func FamilyRoutes(incomingRoutes *gin.RouterGroup, handler handlers.FamilyHandle
 	group.GET("/family", handler.GetAllFamily)
 	group.GET("/family/:id", handler.GetFamilyByID)
 	group.POST("/family", handler.CreateFamily)
+	group.PATCH("/family/:id", handler.UpdateFamily)
 	group.DELETE("/family/:id", handler.DeleteFamily)
 }

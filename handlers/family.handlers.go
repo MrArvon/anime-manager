@@ -13,7 +13,7 @@ type FamilyHandler interface {
 	CreateFamily(c *gin.Context)
 	GetAllFamily(c *gin.Context)
 	GetFamilyByID(c *gin.Context)
-	//UpdateFamily(c *gin.Context)
+	UpdateFamily(c *gin.Context)
 	DeleteFamily(c *gin.Context)
 }
 
@@ -23,6 +23,43 @@ type familyHandler struct {
 
 func NewFamilyHandler(service services.FamilyService) *familyHandler {
 	return &familyHandler{service}
+}
+
+// CreateFamily godoc
+// @Summary Add New Family
+// @Tags Data Family
+// @Accept json
+// @Produce json
+// @Param request body models.Family true "query params"
+// @Router /api/family [post]
+func (h *familyHandler) CreateFamily(c *gin.Context) {
+	var family models.Family
+	err := c.ShouldBindJSON(&family)
+	if err != nil {
+		var errMsgs []string
+		for _, e := range err.(validator.ValidationErrors) {
+			errMsg := fmt.Sprintf("Error on field %s, condition: %s", e.Field(), e.ActualTag())
+			errMsgs = append(errMsgs, errMsg)
+		}
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  errMsgs,
+			"status": http.StatusBadRequest,
+		})
+		return
+	}
+
+	res, err := h.service.CreateFamily(family)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+			"status":  http.StatusInternalServerError,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data":    res,
+		"status":  http.StatusOK,
+		"message": "success",
+	})
 }
 
 // GetAllFamily godoc
@@ -38,6 +75,7 @@ func (h *familyHandler) GetAllFamily(c *gin.Context) {
 			"message": err.Error(),
 			"status":  http.StatusInternalServerError,
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"data":    res,
@@ -62,6 +100,7 @@ func (h *familyHandler) GetFamilyByID(c *gin.Context) {
 			"message": err.Error(),
 			"status":  http.StatusInternalServerError,
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"data":    res,
@@ -70,18 +109,21 @@ func (h *familyHandler) GetFamilyByID(c *gin.Context) {
 	})
 }
 
-// CreateFamily godoc
-// @Summary Add New Family
+// UpdateFamily godoc
+// @Summary Update Single Data Family
 // @Tags Data Family
 // @Accept json
 // @Produce json
-// @Param request body models.Family true "query params"
-// @Router /api/family [post]
-func (h *familyHandler) CreateFamily(c *gin.Context) {
-	var family models.Family
+// @Param id path string false "update family by id"
+// @Param request body models.FamilyRequest true "query params"
+// @Router /api/family/{id} [put]
+func (h *familyHandler) UpdateFamily(c *gin.Context) {
+	id := c.Param("id")
+
+	var family models.FamilyRequest
 	err := c.ShouldBindJSON(&family)
 	if err != nil {
-		errMsgs := []string{}
+		var errMsgs []string
 		for _, e := range err.(validator.ValidationErrors) {
 			errMsg := fmt.Sprintf("Error on field %s, condition: %s", e.Field(), e.ActualTag())
 			errMsgs = append(errMsgs, errMsg)
@@ -93,7 +135,7 @@ func (h *familyHandler) CreateFamily(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.CreateFamily(family)
+	res, err := h.service.UpdateFamily(id, family)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
